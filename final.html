@@ -1,0 +1,45 @@
+<head>
+	<title>LiveTweets</title>
+	<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+</head>
+
+<body>
+	<!--div id='top'></div-->
+	{{> nav }}
+	<div id='map-canvas'></div>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</body>
+
+<template name="nav">
+	<nav class="navbar navbar-inverse">
+		<div class="container-default">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">LiveTweets</a>
+			</div>
+
+			<div class="navbar">
+				<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+						<input id="search-predict" type="text" class="form-control" placeholder="Search">
+					</div>
+				</form>
+
+				<form class="navbar-form navbar-left" role="search">
+					<div class="nav navbar-nav">
+						<p class="navbar-text navbar-left">Click on the map or use the search bar.</p>
+					</div>
+				</form>
+
+				<div class="navbar-form navbar-right">
+					<a href="https://github.com" target="_blank">
+						<img src="github.png">
+					</a>
+				</div>
+				<div class="navbar-form navbar-right">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-text="Live tweets in your city." data-size="large" data-count="none">Tweet</a>
+				</div>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+
+</template>
