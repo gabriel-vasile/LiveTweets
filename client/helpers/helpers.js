@@ -262,6 +262,7 @@ observeTweets = function() {
 }
 
 setGeo = function(geo) {
+    console.log(geo)
     Meteor.call('setGeo2User', geo, function(err, res) {
         Meteor.subscribe('tweets');
     })

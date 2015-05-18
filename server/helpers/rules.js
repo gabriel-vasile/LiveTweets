@@ -18,15 +18,15 @@ Meteor.users.find({
     added: function(id) {
         // id just came online
         console.log(id + ' is now online')
-
+        /*
         Meteor.users.update(id._id, {
             $set: {
                 "geo.lat": 40.741730,
                 "geo.lng": -73.986397
             }
-        })
-        var curUser = Meteor.users.findOne(id._id);
-        console.log('Last user geo: '+ curUser.geo.lat+ " "+curUser.geo.lng)
+        })*/
+        //var curUser = Meteor.users.findOne(id._id);
+        //console.log('Last user geo: '+ curUser.geo.lat+ " "+curUser.geo.lng)
     },
     removed: function(id) {
 
