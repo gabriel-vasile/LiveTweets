@@ -36,8 +36,8 @@ Meteor.methods({
                 })
 
                 //whenever a new tweet is inserted delete the oldest one
-                //keep 500 tweets as cache
-                if (Tweets.find().count() > 500) {
+                //keep 15 tweets as cache
+                if (Tweets.find().count() > 15) {
                     var lastTweet = Tweets.findOne({}, {
                         sort: ["_id", "desc"]
                     });

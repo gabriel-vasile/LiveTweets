@@ -28,8 +28,8 @@ geolocationAccepted = function(geo) {
 
 }
 
-geolocationDenied = function() {
-
+geolocationDenied = function(err) {
+    console.log(err)
     //if users dont want to reveal thei locations then we're going to NY
     var latlng = new google.maps.LatLng(40.741730, -73.986397);
     map.setCenter(latlng);
@@ -86,7 +86,7 @@ initGMaps = function() {
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
             clearOldMarkers();
             var place = autocomplete.getPlace();
-            console.log(place.geometry.location)
+            //console.log(place.geometry.location)
             var geoToSet = {
                 lat: place.geometry.location.lat(),
                 lng: place.geometry.location.lng()
@@ -151,7 +151,7 @@ initGMaps = function() {
             }
 
 
-        }, 10000)
+        }, 13000)
     }
 
     function browserGeo2LatLng(geo) {

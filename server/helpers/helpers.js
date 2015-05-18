@@ -4,10 +4,12 @@
             -an object containing latitude and longitude of a single point
                 -in this case the function returns areaGeo if it is near userGeo*/
 tweetInUserArea = function(areaGeo, userGeo) {
-    if(!userGeo.lat) return
+
+    //userGeo is undefined when the user just connected but Meteor didnt gave time to set his geo
+    if (userGeo === undefined) return false;
+
     //if areaGeo is an array => it defines an bounding box
     if (Array.isArray(areaGeo)) {
-
         if ((userGeo.lat > areaGeo[0][1]) && (userGeo.lat < areaGeo[1][1]) &&
             (userGeo.lng > areaGeo[0][0]) && (userGeo.lng < areaGeo[2][0])) {
 
@@ -48,7 +50,7 @@ createTwit = function() {
 //the Twitter api is really restrictive with streams, which means it cannot accept multiple streaming request from the same app
 //this means it cannot request stream for each city
 //instead the app has to request streams from the whole world and filter them by city
-createTwitStream = function(streamCreator, latLng, clientId) {
+createTwitStream = function(streamCreator) {
 
     //rought aproximation latitude and longitude of the world.
     var loc = ['-180', '-58', '180', '79']
@@ -70,10 +72,9 @@ publishTweets = function() {
         var userLat, userLng;
         if (!this.userId) return
         var user = Meteor.users.findOne(this.userId)
-        if (!user.geo.lat) return;4
+        if (!user.geo) return;
         userLat = user.geo.lat;
         userLng = user.geo.lng;
-
 
         return Tweets.find({
             "geo.lat": {
