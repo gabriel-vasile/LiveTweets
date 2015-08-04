@@ -20,7 +20,7 @@ tweetInUserArea = function(areaGeo, userGeo) {
             return {
                 lat: areaGeo[0][1] + randomHeight,
                 lng: areaGeo[0][0] + randomWidth
-            }
+            };
 
         }
 
@@ -31,7 +31,7 @@ tweetInUserArea = function(areaGeo, userGeo) {
 
         if ((Math.abs(areaGeo.lat - userGeo.lat) < .45) &&
             (Math.abs(areaGeo.lng - userGeo.lng) < .45))
-            return areaGeo
+            return areaGeo;
     }
 
     return false;
@@ -39,10 +39,10 @@ tweetInUserArea = function(areaGeo, userGeo) {
 
 createTwit = function() {
     return new TwitMaker({
-        consumer_key: 'FZ7TktT3rQGdFipHVdTRJ29Dk',
-        consumer_secret: '5qkBDtjBQxsBdanNSEZDbM5EPFmoaxKke0V5Qx9lxJvRZbMHFB',
-        access_token: '3111998128-stWXhFNwQLKX4Qjurg7KK7IHVgGhUQ0lBIdJwNp',
-        access_token_secret: 'YlvMOY2O5aSDWvMWGuRMUgialOq1vNCXMpvZHlVDnlzGc'
+        consumer_key: '',
+        consumer_secret: '',
+        access_token: '',
+        access_token_secret: ''
     });
 }
 
@@ -53,14 +53,14 @@ createTwit = function() {
 createTwitStream = function(streamCreator) {
 
     //rought aproximation latitude and longitude of the world.
-    var loc = ['-180', '-58', '180', '79']
+    var loc = ['-180', '-58', '180', '79'];
     var stream = streamCreator.stream('statuses/filter', {
         locations: loc
-    })
+    });
 
     //stream.on event emitter is async so the callback of it needds to be wrapped in bindEnvironement
     stream.on('tweet', Meteor.bindEnvironment(filterTweet, function(err) {
-        console.log(err)
+        console.log(err);
     }))
 
     return stream;
@@ -70,8 +70,8 @@ createTwitStream = function(streamCreator) {
 publishTweets = function() {
     Meteor.publish('tweets', function() {
         var userLat, userLng;
-        if (!this.userId) return
-        var user = Meteor.users.findOne(this.userId)
+        if (!this.userId) return;
+        var user = Meteor.users.findOne(this.userId);
         if (!user.geo) return;
         userLat = user.geo.lat;
         userLng = user.geo.lng;
@@ -105,24 +105,24 @@ filterTweet = function(tweet) {
             tweetGeo = {
                 lat: tweet.geo.coordinates[0],
                 lng: tweet.geo.coordinates[1]
-            }
+            };
         } else if (tweet.place.place_type === 'city') {
-            tweetGeo = tweet.place.bounding_box.coordinates[0]
+            tweetGeo = tweet.place.bounding_box.coordinates[0];
         } else return;
 
         //don't need all the data that comes bundled in the tweet
         //only need text, geo, user name, user profile picture and links in the tweet
-        var simplifiedTweet ={
+        var simplifiedTweet = {
             text: tweet.text,
             geo: tweetGeo,
             name: tweet.user.screen_name,
             profileImage: tweet.user.profile_image_url,
             entities: tweet.entities
-        }
+        };
         Meteor.call('insertTweet', simplifiedTweet, function(err, res) {
             if (err) {
                 console.log(err);
-                return
+                return;
             }
         })
     }

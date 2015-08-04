@@ -17,10 +17,10 @@ Meteor.methods({
     //is also filters the tweets in a way that only the tweets that are in one of the users area are inserted 
     insertTweet: function(tweet) {
 
-        var users = Meteor.users.find().fetch()
+        var users = Meteor.users.find().fetch();
 
         //no point in inserting tweets if no user is there to see them.
-        if (users.length == 0) return
+        if (users.length == 0) return;
 
         var geoToInsert;
 
@@ -45,8 +45,8 @@ Meteor.methods({
                     //delete the oldest tweet asyncronously so it doesn't block 
                     Tweets.remove(lastTweet._id, function(err, res) {
                         if (err) {
-                            console.log(err)
-                            return
+                            console.log(err);
+                            return;
                         }
                         //console.log(res)
                     })

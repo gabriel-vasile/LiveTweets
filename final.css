@@ -1,10 +1,18 @@
 /* CSS declarations go here */
-
-nav > .container-fluid > .navbar-collapse > ul > li:nth-child(2){
+.navbar-collapse{
+	background-color: #222;
+}
+/*tweeter button needs custom css*/
+nav > .container > .navbar-collapse > ul > li:nth-child(2){
 		transform: translateY(35%);
 		float: right;
 		padding-right: 15px;
 }
+#widget{
+	overflow: visible;
+}
+
+
 .pac-container{
 	z-index: 99999;
 }
@@ -25,24 +33,18 @@ nav > .container-fluid > .navbar-collapse > ul > li:nth-child(2){
 	margin-top: 50px;
 }
 
-.container{
-	height: 50px;
-	width: 100%;
-	top: 0%;
-	left: 0%;
-	margin: 0px auto;
-}
+
 
 @media only screen and (device-width: 768px),
        only screen and (max-width: 768px) {
 	
-	nav > .container-fluid > .navbar-collapse > ul > li{
+	nav > .container > .navbar-collapse > ul > li{
 		display: inline-block;
 	}
-	nav > .container-fluid > .navbar-collapse > ul{
+	nav > .container > .navbar-collapse > ul{
 		text-align: justify;
 	}
-	nav > .container-fluid > .navbar-collapse > ul > li:nth-child(2){
+	nav > .container > .navbar-collapse > ul > li:nth-child(2){
 		transform: translateY(30%);
 	}
 }
@@ -50,5 +52,11 @@ nav > .container-fluid > .navbar-collapse > ul > li:nth-child(2){
 	.navbar-nav > li > a {
 	    padding-top: 10px;
 	    padding-bottom: 0px;
+	}
+}
+@media only screen and (device-width: 768px),
+	   only screen and (min-width: 768px){
+	#search-predict{
+		width: 350px;
 	}
 }

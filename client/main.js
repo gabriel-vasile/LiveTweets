@@ -18,10 +18,3 @@ Meteor.startup(function() {
   });
 
 })
-hide = function(){
-	$('#map-canvas').hide();
-}
-hide();
-
-
-

@@ -17,7 +17,7 @@ Meteor.users.find({
 }).observe({
     added: function(id) {
         // id just came online
-        console.log(id + ' is now online')
+        console.log(id._id + ' is now online');
         /*
         Meteor.users.update(id._id, {
             $set: {
@@ -30,15 +30,15 @@ Meteor.users.find({
     },
     removed: function(id) {
 
-        console.log(id + ' is now offline')
+        console.log(id._id + ' is now offline');
 
         //delete the oldest tweet asyncronously so it doesn't block 
         Meteor.users.remove(id._id, function(err, res) {
             if (err) {
-                console.log(err)
-                return
+                console.log(err);
+                return;
             }
-            console.log(res)
+            console.log(res);
         })
         /*
         Meteor.users.update(id._id, {

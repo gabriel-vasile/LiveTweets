@@ -20,11 +20,11 @@ geolocationAccepted = function(geo) {
         lat: latlng.lat(),
         lng: latlng.lng()
     }
-    userMarker.setPosition(latlng)
-    gmaps.scheduleChuckSummon(latlng)
+    userMarker.setPosition(latlng);
+    gmaps.scheduleChuckSummon(latlng);
     //console.log(geoToSet)
     //tell the server where the user is at
-    setGeo(geoToSet)
+    setGeo(geoToSet);
 
 }
 
@@ -40,7 +40,7 @@ geolocationDenied = function(err) {
             lng: latlng.lng()
         }
         //console.log(geoToSet)
-    setGeo(geoToSet)
+    setGeo(geoToSet);
 
 }
 
@@ -93,10 +93,10 @@ initGMaps = function() {
             }
 
             //if no activity in user area notify him
-            scheduleChuckSummon(place.geometry.location)
+            scheduleChuckSummon(place.geometry.location);
 
-            userMarker.setPosition(place.geometry.location)
-            setGeo(geoToSet)
+            userMarker.setPosition(place.geometry.location);
+            setGeo(geoToSet);
 
             map.setCenter(place.geometry.location);
             map.setZoom(10);
@@ -105,7 +105,7 @@ initGMaps = function() {
         google.maps.event.addListener(map, 'click', function(eventData) {
 
             //place the marker where the user clicked
-            userMarker.setPosition(eventData.latLng)
+            userMarker.setPosition(eventData.latLng);
 
             //clear the old markers from the previous location
             clearOldMarkers();
@@ -114,7 +114,7 @@ initGMaps = function() {
                 lat: eventData.latLng.lat(),
                 lng: eventData.latLng.lng()
             }
-            setGeo(geoToSet)
+            setGeo(geoToSet);
 
             //if no tweets in this location summon Chuck Norris
             scheduleChuckSummon(eventData.latLng);
@@ -124,20 +124,20 @@ initGMaps = function() {
 
     function clearOldMarkers() {
         for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(null)
+            markers[i].setMap(null);
         }
-        markers = []
+        markers = [];
     }
 
     function scheduleChuckSummon(latLng) {
-        Meteor.clearTimeout(timeoutId)
+        Meteor.clearTimeout(timeoutId);
         timeoutId = Meteor.setTimeout(function() {
 
             if (markers.length === 0) {
                 var geoToSet = {
                     lat: latLng.lat(),
                     lng: latLng.lng()
-                }
+                };
                 var chuckTweet = {
                     text: "Pretty lonely here. Consider moving to a bigger city,<br>" +
                         "or maybe one where the local hour is not 5 in the morning.<br>" +
@@ -146,8 +146,8 @@ initGMaps = function() {
                     geo: geoToSet,
                     profileImage: "chuck.png",
                     entities: undefined
-                }
-                createTweetOnMap(chuckTweet, true)
+                };
+                createTweetOnMap(chuckTweet, true);
             }
 
 
@@ -161,7 +161,7 @@ initGMaps = function() {
 
     function tweetGeo2LatLng(geo) {
         if (!geo) return
-        return new google.maps.LatLng(geo.lat, geo.lng)
+        return new google.maps.LatLng(geo.lat, geo.lng);
     }
 
     //tweets are plain text
@@ -170,8 +170,8 @@ initGMaps = function() {
     function addLinks(tweet) {
         function insertHrefInTag(text, url) {
             var out = "<a href='" + url +
-                "' target='_blank'>" + text + "</a>"
-            return out
+                "' target='_blank'>" + text + "</a>";
+            return out;
         }
         var out = tweet.text;
         out = out.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function(url) {
@@ -185,18 +185,18 @@ initGMaps = function() {
                 }
             }
             //return tweetText.link(url);
-            return insertHrefInTag(tweetText, url)
+            return insertHrefInTag(tweetText, url);
         });
 
         out = out.replace(/[#]+[A-Za-z0-9-_]+/g, function(hash) {
             txt = hash.replace("#", "");
             //return hash.link("http://twitter.com/search/%23" + txt);
-            return insertHrefInTag(hash, "http://twitter.com/search/%23" + txt)
+            return insertHrefInTag(hash, "http://twitter.com/search/%23" + txt);
         });
         out = out.replace(/[@]+[A-Za-z0-9-_]+/g, function(u) {
             var username = u.replace("@", "")
                 //return u.link("http://twitter.com/" + username);
-            return insertHrefInTag(u, "http://twitter.com/" + username)
+            return insertHrefInTag(u, "http://twitter.com/" + username);
         });
         return out;
     }
@@ -220,7 +220,7 @@ initGMaps = function() {
                 map: map,
                 animation: google.maps.Animation.DROP,
                 zIndex: google.maps.Marker.MAX_ZINDEX++ //last tweet is the one upfront
-            })
+            });
             //adding some properties to the marker object to be used by the infowindow
         marker.name = tweet.name;
         marker.text = addLinks(tweet);
@@ -262,7 +262,7 @@ observeTweets = function() {
 }
 
 setGeo = function(geo) {
-    console.log("User watching position: LAT:" + geo.lat + "LNG:" + geo.lng);
+    console.log("User watching position: LAT:" + geo.lat + " LNG:" + geo.lng);
     Meteor.call('setGeo2User', geo, function(err, res) {
         Meteor.subscribe('tweets');
     })
