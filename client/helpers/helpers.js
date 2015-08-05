@@ -24,7 +24,13 @@ geolocationAccepted = function(geo) {
     gmaps.scheduleChuckSummon(latlng);
     //console.log(geoToSet)
     //tell the server where the user is at
-    setGeo(geoToSet);
+
+    //for some reason the mini-mongo db gets no tweets if the location is set right away
+    //
+    //setGeo(geoToSet);
+    setTimeout(function(){
+        setGeo(geoToSet);
+    },1000)
 
 }
 
@@ -40,7 +46,13 @@ geolocationDenied = function(err) {
             lng: latlng.lng()
         }
         //console.log(geoToSet)
-    setGeo(geoToSet);
+    
+    //for some reason the mini-mongo db gets no tweets if the location is set right away
+    //
+    //setGeo(geoToSet);
+    setTimeout(function(){
+        setGeo(geoToSet);
+    },1000)
 
 }
 
@@ -49,10 +61,10 @@ initGMaps = function() {
             'sensor': true,
             libraries: 'places'
         },
-        initGMaps
+        loadMap
     );
 
-    function initGMaps() {
+    function loadMap() {
 
 
 
