@@ -258,6 +258,7 @@ observeTweets = function() {
     Tweets.find().observeChanges({
         //whenever a new tweet comes down the wire.
         added: function(id, doc) {
+            console.log('tweet received on client')
 
             //add the tweet on the map
             gmaps.createTweetOnMap(doc);

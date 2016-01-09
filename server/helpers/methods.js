@@ -13,6 +13,7 @@ Meteor.methods({
             });
         }
     },
+
     //called from the server when a tweet has either the geo attribute or the place attribute
     //is also filters the tweets in a way that only the tweets that are in one of the users area are inserted 
     insertTweet: function(tweet) {
@@ -25,8 +26,10 @@ Meteor.methods({
         var geoToInsert;
 
         //check for each user if the current tweet is in his area
-        for (var i = 0; i < users.length; i++)
-            if (geoToInsert = tweetInUserArea(tweet.geo, users[i].geo)) {
+        for (var i = 0; i < users.length; i++) {
+            var geoToInsert = tweetInUserArea(tweet.geo, users[i].geo)
+            if (geoToInsert) {
+                // console.log('se apeleaza insert;')
                 Tweets.insert({
                     text: tweet.text,
                     geo: geoToInsert,
@@ -56,6 +59,7 @@ Meteor.methods({
                 //they will both get it even if it inserted only once
                 break;
             }
+        }
 
 
     }

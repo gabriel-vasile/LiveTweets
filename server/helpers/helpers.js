@@ -5,14 +5,14 @@
                 -in this case the function returns areaGeo if it is near userGeo*/
 tweetInUserArea = function(areaGeo, userGeo) {
 
+    // console.log('checking in tweet in user area')
     //userGeo is undefined when the user just connected but Meteor didnt gave time to set his geo
     if (userGeo === undefined) return false;
 
     //if areaGeo is an array => it defines an bounding box
     if (Array.isArray(areaGeo)) {
-        if ((userGeo.lat > areaGeo[0][1]) && (userGeo.lat < areaGeo[1][1]) &&
-            (userGeo.lng > areaGeo[0][0]) && (userGeo.lng < areaGeo[2][0])) {
-
+        if ((userGeo.lat + 2.2 > areaGeo[0][1]) && (userGeo.lat - 2.2 < areaGeo[1][1]) &&
+            (userGeo.lng + 2.2 > areaGeo[0][0]) && (userGeo.lng - 2.2 < areaGeo[2][0])) {
             var cityWidth = Math.abs(areaGeo[0][0] - areaGeo[3][0]),
                 cityHeight = Math.abs(areaGeo[0][1] - areaGeo[1][1]),
                 randomWidth = Math.random() * cityWidth,
@@ -27,13 +27,17 @@ tweetInUserArea = function(areaGeo, userGeo) {
         //if areaGeo is an object(a single position on map) and the userGeo is near 
         //return this position
 
-    } else if (typeof areaGeo === 'object') {
+    } 
+    else if (typeof areaGeo === 'object') {
 
-        if ((Math.abs(areaGeo.lat - userGeo.lat) < .45) &&
-            (Math.abs(areaGeo.lng - userGeo.lng) < .45))
+        if ((Math.abs(areaGeo.lat - userGeo.lat) < 5) &&
+            (Math.abs(areaGeo.lng - userGeo.lng) < 5)) {
+
             return areaGeo;
+        }
     }
 
+    // console.log('tweet not in in user area')
     return false;
 }
 
@@ -73,12 +77,12 @@ publishTweets = function() {
 
         return Tweets.find({
             "geo.lat": {
-                $lt: userLat + .45,
-                $gt: userLat - .45
+                $lt: userLat + 1.45,
+                $gt: userLat - 1.45
             },
             "geo.lng": {
-                $lt: userLng + .45,
-                $gt: userLng - .45
+                $lt: userLng + 1.45,
+                $gt: userLng - 1.45
             }
         });
     });
@@ -93,33 +97,33 @@ publishTweets = function() {
 filterTweet = function(tweet) {
 
 
-    if (tweet.geo || tweet.place.place_type === 'city') {
-        var tweetGeo;
-        if (tweet.geo) {
-            //mongodb cant handle array indexes in its filters so I insert locations as objects instead of arrays
-            tweetGeo = {
-                lat: tweet.geo.coordinates[0],
-                lng: tweet.geo.coordinates[1]
-            };
-        } else if (tweet.place.place_type === 'city') {
-            tweetGeo = tweet.place.bounding_box.coordinates[0];
-        } else return;
-
-        //don't need all the data that comes bundled in the tweet
-        //only need text, geo, user name, user profile picture and links in the tweet
-        var simplifiedTweet = {
-            text: tweet.text,
-            geo: tweetGeo,
-            name: tweet.user.screen_name,
-            profileImage: tweet.user.profile_image_url,
-            entities: tweet.entities
+    var tweetGeo;
+    if (tweet.geo) {
+        //mongodb cant handle array indexes in its filters so I insert locations as objects instead of arrays
+        tweetGeo = {
+            lat: tweet.geo.coordinates[0],
+            lng: tweet.geo.coordinates[1]
         };
-        Meteor.call('insertTweet', simplifiedTweet, function(err, res) {
-            if (err) {
-                console.log(err);
-                return;
-            }
-        })
-    }
+    } else if (tweet.place.place_type === 'city') {
+        tweetGeo = tweet.place.bounding_box.coordinates[0];
+    } else return;
+
+    //don't need all the data that comes bundled in the tweet
+    //only need text, geo, user name, user profile picture and links in the tweet
+    var simplifiedTweet = {
+        text: tweet.text,
+        geo: tweetGeo,
+        name: tweet.user.screen_name,
+        profileImage: tweet.user.profile_image_url,
+        entities: tweet.entities
+    };
+    Meteor.call('insertTweet', simplifiedTweet, function(err, res) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+    });
+    
 
 }
+
