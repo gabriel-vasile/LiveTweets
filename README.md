@@ -2,6 +2,7 @@
 Real-time tweets in your area
 
 * [Currently deployed here](http://livetweets.meteor.com/)
+\*Not working anymore. Meteor shut down the free host! 
 
 To run:
 
